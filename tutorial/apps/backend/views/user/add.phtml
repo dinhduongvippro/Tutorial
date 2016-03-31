@@ -1,0 +1,118 @@
+<title>CRM | Admin | User</title>
+<section class="content-header">
+	<h1>User</h1>
+	<ol class="breadcrumb">
+		<li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">Management>User>Add</li>
+	</ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<?php if (isset($message) && $message == "Successful"){?>
+	<div class="alert alert-success alert-dismissable " id="messageResult"><i class="fa fa-check"></i>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<b><?php echo $message?></b>
+	</div>
+	<?php }else if ($message){?>
+	<div class="alert alert-danger alert-dismissable" id="messageResult"><i class="fa fa-ban"></i>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<b><?php echo $message?></b>
+	</div>
+	<?php }?>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<form role="form" id="form" action="add" method="post">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-xs-3">
+								<div class="form-group">
+									<label>Full Name</label>
+									<input type="text" name="full_name" class="form-control"
+										placeholder="Full Name" autofocus>
+								</div>
+							</div>
+							<div class="col-xs-3">
+								<div class="form-group">
+									<label>Username</label>
+									<input type="text" name="user_name" class="form-control"
+										placeholder="Username">
+								</div>
+							</div>
+							<div class="col-xs-3">
+								<div class="form-group">
+									<label>Password</label>
+									<input type="password" name="password" class="form-control"
+										placeholder="Password">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-3">
+								<div class="form-group">
+									<label>E-mail</label>
+									<input type="text" name="email" class="form-control"
+										placeholder="E-mail" autofocus>
+								</div>
+							</div>
+							<div class="col-xs-3">
+								<div class="form-group">
+									<label>Group</label>
+									<select class="form-control" name="group_id">
+										<option value="">--Select Group--</option>
+										<?php																										
+											foreach ( $listGroup as $v ) {?>
+	                                        <option <?php if($pk_id == $v['id'])  echo 'selected'?> value="<?php echo $v["id"]; ?>"><?php echo $v["name"]; ?></option>
+	                                    <?php } ?>
+                                	</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="form-group">
+									<select multiple="multiple" size="20" name="select_all[]" id="select_all">
+										<?php foreach ($listModule as $v) {?>
+										<option value="<?php echo $v["id"]?>"><?php echo $v["name"]?></option>
+										<?php }?>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<input type="hidden" name="pk_id" value="<?php echo $pk_id?>"/>
+						<button type="submit" class="btn btn-primary">Create</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(document).ready(function() {
+		$crm.active_menu('management', 'user');
+		$crm.autoCloseMessage();
+		$crm.checkAll();
+		$('#select_all').bootstrapDualListbox();
+	});
+
+	$('#form').validate({
+	    rules: {
+	        full_name:{ minlength: 2, required:true },
+	        user_name:{ minlength: 3, required:true },
+	        password:{ minlength: 3, required:true },
+	        email:{  required:true, email:true },
+	        group_id:{  required:true},
+	    },
+	    highlight: function(element) {
+	        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+	    },
+	    unhighlight: function(element) {
+	        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+	    },
+	    errorElement: 'span', errorClass: 'help-block'
+	});
+</script>
+

@@ -1,0 +1,88 @@
+<?php use Modules\Backend\Controllers\BaseController;
+use Modules\Backend\Services\Utils;
+ ?>
+<title>Menu Top | Admin | Menu</title>
+<section class="content-header">
+	<h1>menu</h1>
+	<ol class="breadcrumb">
+		<li><a href="/admin"><i class="fa fa-dashboard"></i> admin</a></li>
+		<li><a href="/admin/menutop">menu</a></li>
+	</ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">	
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="row">	
+					<div class="box-body table-responsive">
+						<div class="col-xs-12">
+							<a href="/admin/menutop/add" type="button" class="btn btn-primary pull-right">Add new</a>
+						</div>
+					</div>
+				</div>
+				<div class="box-body table-responsive">
+					<table id="tableData" class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th style="width: 1%">#</th>
+								<th>Name</th>
+								<th>Link</th>
+								<th style="width: 10%">Parent</th>
+								<th style="width: 3%">Status</th>
+								<th style="width: 6%">Order</th>
+								<th style="width: 3%"></th>
+								<th style="width: 3%"></th>
+								<!-- <th class="nosort" style="width: 1%"><input type="checkbox" id="all" value="0"/></th> -->
+							</tr>
+						</thead>
+						<tbody>
+							<?php $j=1; $n=count($data); for($i=0;$i<$n;$i++){?>
+							<tr>
+								<td><?php echo $j++?></td>
+								<td><?php echo $data[$i]['name']?></td>
+								<td><?php echo $data[$i]['link']?></td>
+								<td><?php echo $data[$i]['numTwo']?></td>
+								<td><?php echo Utils::status($data[$i]['status'])?></td>
+								<td><?php echo $data[$i]['sorted']?></td>
+								
+								<td><a href="/admin/menutop/edit?id=<?php echo $data[$i]['id']?>" data-id="<?php echo $data[$i]["id"] ?>">Edit</a></td>
+								<!-- <td><input type="checkbox" class="choose" value="<?php echo $data[$i]["id"]; ?>"/></td> -->
+								<td><a href="#" class="confirm-delete" data-id="<?php echo $data[$i]['id']?>">
+									<img src="/images/delete.png" alt="Delete" height="20" width="22"></a></td>
+								</tr>
+								
+							<?php }?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(document).ready(function() {
+		$crm.active_menu('configure', 'menutop');
+		$crm.createDataTable("#table");
+		$('#tableData').dataTable({
+			"aoColumnDefs": [{ 'bSortable': false, 'aTargets': [6,7] }],
+			"language": { "decimal": ".",  "thousands": "," },
+			"sPaginationType": "full_numbers",
+			// "fnDrawCallback": function() {
+				// $('#iPage').val(this.fnPagingInfo().iPage);
+				// temp = this.fnPagingInfo().iPage;
+				// $('#table tbody').find('a[id=editAp]').each(function(index, value){
+					// var hrel = $(this).attr('href').split("iPage=")[0]+"iPage="+temp;
+					// $(this).attr("href", hrel);
+				// });
+			// }
+		})//.fnPageChange(<?php echo 1;?>);
+	});
+	$('.confirm-delete').on('click', function(e) {
+		e.preventDefault();
+		var id = $(this).data('id');
+		$crm.myDialogConfirmNew(id,"/admin/menutop/delete","Do you want delete menu!");
+	});
+</script>
+

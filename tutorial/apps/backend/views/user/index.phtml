@@ -1,0 +1,162 @@
+<?php use Modules\Backend\Controllers\BaseController;
+use Modules\Backend\Services\Utils;
+?>
+<title>CRM | Admin | User</title>
+<section class="content-header">
+	<h1>User</h1>
+	<ol class="breadcrumb">
+		<li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">Management-User</li>
+	</ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<?php if (isset($message) && $message == "Successful"){?>
+	<div class="alert alert-success alert-dismissable " id="messageResult"><i class="fa fa-check"></i>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<b><?php echo $message?></b>
+	</div>
+	<?php }else if ($message){?>
+	<div class="alert alert-danger alert-dismissable" id="messageResult"><i class="fa fa-ban"></i>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<b><?php echo $message?></b>
+	</div>
+	<?php }?>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-body">
+					<div class="row">
+						<div class="pull-left col-xs-4">
+							<?php if (BaseController::checkModuleLayout(USER_ADD)){?>
+							<a href="/admin/user/add<?php echo $pk_id != '' ? "?pk_id=$pk_id" : ''?>"><button type="button" class="btn btn-xs btn-primary">Add User</button></a>
+							<?php }?>
+						</div>
+						<div class="pull-right col-xs-4">
+							<div class="input-group input-group-sm">
+								<input type="text" id="search" value="<?php echo $search?>" class="form-control pull-left" placeholder="Search...">
+								<div class="input-group-btn">
+									<button type="button" class="btn btn-xs btn-primary dropdown-toggle"data-toggle="dropdown">Action
+										<span class="fa fa-caret-down"></span>
+									</button>
+									<ul class="dropdown-menu pull-right" role="menu">
+										<?php if (BaseController::checkModuleLayout(USER_DELETE)){?>
+										<li><a style="cursor: pointer;" id="delete">Delete</a></li>
+										<li><a style="cursor: pointer;" id="lock">Lock</a></li>
+										<li><a style="cursor: pointer;" id="unlock">Unlock</a></li>
+										<?php }?>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="box-body table-responsive">
+							<table id="table" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="nosort" style="width: 1%">#</th>
+										<th>Full Name</th>
+										<th>Username</th>
+										<th>Status</th>
+										<th style="width: 15%">Group</th>
+										<th style="width: 10%">Last Editor</th>
+										<th style="width: 10%">Last Update</th>
+										<?php if (BaseController::checkModuleLayout(USER_EDIT)){?>
+										<th class="nosort" style="width: 2%">Edit</th>
+										<?php }?>
+										<th class="nosort" style="width: 1%"><input type="checkbox" id="all" value="0"/></th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $j=1; $n=count($list); for($i=0;$i<$n;$i++){?>
+									<tr>
+										<td><?php echo $j++?></td>
+										<td><?php echo $list[$i]['full_name']?></td>
+										<td><?php echo $list[$i]['user_name']?></td>
+										<td><?php echo Utils::status($list[$i]['status'])?></td>
+										<td><?php echo $list[$i]['group_owner']?></td>
+										<td><?php echo $list[$i]['editor']?></td>
+										<td><?php echo $list[$i]['update_date']?></td>
+										<?php if (BaseController::checkModuleLayout(USER_EDIT)){?>
+										<td><a href="/admin/user/edit/<?php echo $list[$i]['id']?>?index=<?php echo $index+1?>&size=<?php echo $size?><?php echo $pk_id != '' ? "&pk_id=$pk_id" : ''?>"><i class="fa fa-edit fa-fw"></i></a></td>
+										<?php }?>
+										<td><input type="checkbox" class="choose" value="<?php echo $list[$i]["id"]; ?>"/></td>
+									</tr>
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<?php if ($n > 0){?>
+							<div class="pull-left">
+								<select id="size">
+									<option <?php if ($size==10) echo 'selected'?> value="10">10</option>
+									<option <?php if ($size==20) echo 'selected'?>  value="20">20</option>
+									<option <?php if ($size==50) echo 'selected'?>  value="50">50</option>
+									<option <?php if ($size==100) echo 'selected'?>  value="100">100</option>
+		                        </select>
+								records per page
+							</div>
+							<div class="pull-right">
+								<div class="pull-left">
+									<?php
+										$from=$index*$size;
+										$to=($from+$size <= $total) ? $from+$size : $from+($total%$size);
+									?>
+									<div class="dataTables_info">Showing <?php echo $from+1?> to <?php echo $to?> of <?php echo $total?> entries</div>
+								</div>&nbsp;
+			                     <ul class="pagination pagination-sm no-margin pull-right">
+			                     	<li><a href="/admin/user?index=<?php echo 1?>&size=<?php echo $size?>&search=<?php echo $search?>"><i class="fa fa-angle-double-left"></i></a></li>
+			                        <li><a href="/admin/user?index=<?php echo $index?>&size=<?php echo $size?>&search=<?php echo $search?>" id="previous"><i class="fa fa-angle-left"></i></a></li>
+			                         <?php 
+			                         	if($total_page <= 5){
+											$start = 1; $end = $total_page;
+										}else if ($index+5 <= $total_page){
+											$start = $index+1; $end = $index+5;
+										}else{
+											$start = $total_page-4; $end = $total_page;
+										}
+			                         	for ($i=$start; $i<=$end; $i++){
+									 ?>
+			                         <li <?php if ($i==$index+1) echo "class='active'"?>><a href="/admin/user?index=<?php echo $i?>&size=<?php echo $size?>&search=<?php echo $search?>"><?php echo $i?></a></li>
+			                         <?php }?>
+			                         <li><a href="/admin/user?index=<?php echo $index+2?>&size=<?php echo $size?>&search=<?php echo $search?>" id="next"><i class="fa fa-angle-right"></i></a></li>
+			                         <li><a href="/admin/user?index=<?php echo $total_page?>&size=<?php echo $size?>&search=<?php echo $search?>"><i class="fa fa-angle-double-right"></i></a></li>
+			                     </ul>
+			                </div>
+			                <?php }?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(document).ready(function() {
+		$crm.active_menu('management', 'user');
+		$crm.disablePreviousNext(<?php echo $index?>,<?php echo $total_page ?>);
+		$crm.createDataTable("#table");
+		$crm.autoCloseMessage();
+		
+		$crm.searchTable("#search","/admin/user?search=");
+		$crm.myPaging("#size","/admin/user",<?php echo $search !='' ? "'".$search."'" : '""';?>);
+		$crm.checkAll();
+	});
+	$("#delete").click(function(){
+		$crm.myDialogConfirm("#table","/admin/user/delete?pk_id=<?php echo $pk_id?>","Do you want delete user(s)!");
+	});
+
+	$("#lock").click(function(){
+		$crm.myDialogConfirm("#table","/admin/user/locked?pk_id=<?php echo $pk_id?>","Do you want lock user(s)!");
+	});
+
+	$("#unlock").click(function(){
+		$crm.myDialogConfirm("#table","/admin/user/unlock?pk_id=<?php echo $pk_id?>","Do you want unlock user(s)!");
+	});
+</script>
+

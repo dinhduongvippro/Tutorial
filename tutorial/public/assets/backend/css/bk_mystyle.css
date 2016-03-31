@@ -1,0 +1,124 @@
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+.status-approve{
+    color: #3c763d;
+    background-color: #dff0d8;
+    tr td a: #3c763d;
+}
+
+.status-approve-note{
+	color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #3c763d;
+    border-style: solid;
+    border-width: 1px;	
+    width: 130px; 
+    height: 20px;
+    text-align: center;
+}
+
+.status-approve td a{
+    color: #3c763d;
+    text-decoration: underline;
+    font-style:italic;
+}
+
+.status-cancel{
+    color: #a94442;
+    background-color: #f2dede;
+}
+
+.status-cancel td a{
+    color: #a94442;
+    text-decoration: underline;
+    font-style:italic;
+}
+
+.status-reject{
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+}
+
+.status-reject td a{
+    color: #8a6d3b;
+    text-decoration: underline;
+    font-style:italic;
+}
+
+.status-done{
+    color: #31708f;
+    background-color: #d9edf7;
+}
+
+.status-done td a{
+    color: #31708f;
+    text-decoration: underline;
+    font-style:italic;
+}
+
+.status-wfa{
+    color: #9966FF;
+    background-color: #CCCCFF;
+}
+
+.status-wfa td a{
+    color: #9966FF;
+    text-decoration: underline;
+    font-style:italic;
+}
+
+.status-running{
+    color: #FF0066;
+    background-color: #FFE6F0;
+}
+
+.status-running td a{
+    color: #FF0066;
+    text-decoration: underline;
+    font-style:italic;
+}
+
+.status-import{
+    color: #f26230;
+    background-color: #FFE1D7;
+}
+
+.status-import-note{
+    color: #f26230;
+    background-color: #FFE1D7;
+    border-color: #f26230;
+    border-style: solid;
+    border-width: 1px;	
+    width: 130px; 
+    height: 20px;
+    text-align: center;
+}
+
+.space_line{
+	margin-bottom: 1%;
+}
+
+.status-import td a{
+    color: #f26230;
+    text-decoration: underline;
+    font-style:italic;
+}
+
+.status-draff td a{
+	color: #1a1a1a;
+    text-decoration: underline;
+    font-style:italic;
+}

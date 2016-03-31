@@ -1,0 +1,62 @@
+<?php use Modules\Frontend\Controllers\BaseController;
+global $userSession;?>
+<aside class="left-side sidebar-offcanvas">
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar">
+		<ul class="sidebar-menu">
+			<?php if (BaseController::checkModuleLayout(REPORT_DASHBOARD) || BaseController::checkModuleLayout(REPORT_DASHBOARD_FULL)) {?>
+				<li id="dashboard"><a href="/"> <i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+			<?php }?>
+			<?php if (BaseController::checkModuleLayout(BOOKING_CAMPAIGN)){?>
+			<li id="advertiserMoniter"><a href="/advertisermonitor"> <i class="fa fa-dashboard"></i><span>Advertiser Monitor</span></a></li>
+			<?php }?>
+			<li id="report" class="treeview">
+				<a href="#"> <i class="fa fa-bar-chart-o"></i> <span>Report</span><i id="reportI" class="fa fa-angle-left pull-right"></i></a>
+				<ul class="treeview-menu">
+					<?php if (BaseController::checkModuleLayout(REPORT_OVERVIEW)) {?>
+						<li id="overview"><a href="/overview"><i class="fa fa-angle-double-right"></i> Overview</a></li>
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(REPORT_ADVERTISER_FULL) || BaseController::checkModuleLayout(REPORT_ADVERTISER)) {?>
+						<li id="advertiser"><a href="/advertiserclient"><i class="fa fa-angle-double-right"></i> Advertiser</a></li>	
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(REPORT_ADVERTISER_VIDEO_FULL) || BaseController::checkModuleLayout(REPORT_ADVERTISER_VIDEO)) {?>
+						<li id="advertiservideo"><a href="/advertiservideo"><i class="fa fa-angle-double-right"></i> Advertiser Video</a></li>
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(REPORT_LOCATION_FULL) || BaseController::checkModuleLayout(REPORT_LOCATION)) {?>
+						<li id="location"><a href="/location"><i class="fa fa-angle-double-right"></i> Location</a></li>
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(REPORT_MANAGEMENTAP_FULL) || BaseController::checkModuleLayout(REPORT_MANAGEMENTAP)) {?>
+					<li id="managementaccesspoint"><a href="/managementaccesspoint"><i class="fa fa-angle-double-right"></i> Management Accesss Point</a></li>
+					<?php }?>
+					<?php if(BaseController::checkModuleLayout(REPORT_INVENTORY) || BaseController::checkModuleLayout(REPORT_FULL_INVENTORY)){?>
+					<li id="inventory"><a href="/inventory"><i class="fa fa-angle-double-right"></i> Inventory</a></li>
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(REPORT_DATAMINING_FULL) || BaseController::checkModuleLayout(REPORT_DATAMINING_CAMPAIGN)
+						|| BaseController::checkModuleLayout(REPORT_DATAMINING_LOCATION)){?>
+					<li id="datamining"><a href="/datamining"><i class="fa fa-angle-double-right"></i> Data Mining</a></li>
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(REPORT_TOTAL_CLIENT)){?>
+					<li id="clienttotal"><a href="/clienttotal"><i class="fa fa-angle-double-right"></i> Total Client</a></li>
+					<?php }?>
+				</ul>
+			</li><!-- /.li -->
+			<?php if (BaseController::checkModuleLayout(BOOKING_CAMPAIGN) || BaseController::checkModuleLayout(SET_UP_USER_APPROVE_BOOKING)){?>
+			<li id="management" class="treeview">
+				<a href="#"> <i class="fa fa-bar-chart-o"></i> <span>Management</span><i id="managementI" class="fa fa-angle-left pull-right"></i></a>
+				<ul class="treeview-menu">
+					<?php if (BaseController::checkModuleLayout(BOOKING_CAMPAIGN)){?>
+					<li id="booking"><a href="/booking"><i class="fa fa-angle-double-right"></i> Booking</a></li>
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(CREATE_ADVERTISER)){?>
+					<li id="createadvertiser"><a href="/createadvertiser"><i class="fa fa-angle-double-right"></i> Advertiser</a></li>	
+					<?php }?>
+					<?php if (BaseController::checkModuleLayout(SET_UP_USER_APPROVE_BOOKING)){?>
+					<li id="setup"><a href="/setup"><i class="fa fa-angle-double-right"></i> Setup</a></li>
+					<?php }?>
+				</ul>
+			</li><!-- /.li -->
+			<?php }?>
+		</ul>
+	</section>
+	<!-- /.sidebar -->
+</aside>

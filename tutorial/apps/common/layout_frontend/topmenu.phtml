@@ -1,0 +1,61 @@
+<?php use Modules\Frontend\Controllers\BaseController;
+
+global $userSession?>
+<header class="header">
+	<a href="/" class="logo">Demo</a>
+	<!-- Header Navbar: style can be found in header.less -->
+	<nav class="navbar navbar-static-top" role="navigation">
+		<!-- Sidebar toggle button-->
+		<!--
+		<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas"
+			role="button"> <span class="sr-only">Toggle navigation</span> <span
+			class="icon-bar"></span> <span class="icon-bar"></span> <span
+			class="icon-bar"></span>
+		</a> -->
+		<div class="navbar-left">
+			<ul class="nav navbar-nav">
+				<?php 
+					foreach($menuTop as $val){						
+						$strQuery = "SELECT * FROM menuTop WHERE numTwo = ".$val["id"]." AND level = 2 AND status = ".ACTIVE;
+						$result=$this->db->query($strQuery)->fetchAll();
+						if($result){
+							echo '	<ul class="nav navbar-nav navbar-right">
+									<li class="dropdown">
+										<a data-toggle="horver" href="'.$val["link"].'">'.$val["name"].'
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">';
+										foreach($result as $v){	
+											echo '<li><a href="'.$v["link"].'">'.$v	["name"].'</a></li>';
+										}
+									echo '
+									</ul>
+								</li>
+							</ul>';
+						}else{
+							echo '<li><a href="'.$val["link"].'">'.$val["name"].'</a></li>';
+						}
+					}
+				?>
+			</ul>
+<!--
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a data-toggle="horver" href="">Tài khoản<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Thông tin</a></li>
+						<li><a href="#">Đổi mật khẩu</a></li>
+						<div class="divider"></div>
+						<li><a href="#">Thoát</a></li>
+					</ul>
+				</li>
+			</ul> -->
+		</div>
+		<div class="navbar-right">
+			<ul class="nav navbar-nav">
+				<li><a href="/admin">Access Admin</a></li>
+				<li><a href="/profile"><i class="fa fa-user fa-fw"></i>Hi, <?php echo $userSession["full_name"]; ?></a></li>
+				<li><a href="/login/logout"><i class="fa fa-sign-out fa-fw"></i></a></li>
+			</ul>
+		</div>
+	</nav>
+</header>

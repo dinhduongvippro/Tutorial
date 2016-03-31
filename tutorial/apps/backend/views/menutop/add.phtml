@@ -1,0 +1,125 @@
+<?php use Modules\Backend\Controllers\BaseController;
+use Modules\Backend\Services\Utils;
+ ?>
+<title>Index | Admin | Menu</title>
+<section class="content-header">
+	<h1>menu</h1>
+	<ol class="breadcrumb">
+		<li><a href="/admin"><i class="fa fa-dashboard"></i> admin</a></li>
+		<li><a href="/admin/menutop">menu</a></li>
+		<li>Add</li>
+	</ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">						
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="body">
+					<form class="form" id="formEdit" role="form" method="POST">
+						<div class="row">
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label>Name</label> 
+									<input class="form-control" id="name" placeholder="Name" name="name" type="text" >
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label>Link</label> 
+									<input class="form-control" id="link" placeholder="Link" name="link" type="text" >
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label>Level</label> 
+									<select id="level" class="form-control" name='level'>
+										<option value="1">Parent</option>
+										<option value="2">Sub</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label>Parent</label> 
+									<select id="numTwo" class="form-control" name='parent' disabled>
+										<option value="0">-- Select --</option>
+										<?php
+											foreach($dataParent as $val){
+												echo "<option value='".$val["id"]."' >".$val["name"]."</option>";
+											}
+										?>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label>Status</label> 
+									<select class="form-control" name='status'>
+										<option value="1" >Active</option>
+										<option value="2" >Inactive</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label>Order</label> 
+									<input class="form-control" id="order" placeholder="order" name="sorted" type="number">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<button type="submit" class="btn btn-primary col-md-offset-0" id="btnAdvancedSearch">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(document).ready(function() {
+		$crm.active_menu('configure', 'menutop');
+		$crm.createDataTable("#table");
+		$('#tableData').dataTable({
+			"aoColumnDefs": [{ 'bSortable': false, 'aTargets': [6,7] }],
+			"language": { "decimal": ".",  "thousands": "," },
+			"sPaginationType": "full_numbers",
+		});
+		$('#formEdit').validate({
+			rules: {
+				name:{minlength: 2, required:true},
+				link: {required:true },
+				sorted: { required:true }
+			},
+			highlight: function(element) {
+				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+			},
+			unhighlight: function(element) {
+				$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+			},
+			errorElement: 'span',
+			errorClass: 'help-block',
+			errorPlacement: function(error, element) {
+				if(element.parent('.input-group').length) {
+					error.insertAfter(element.parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}    
+		});
+	});
+	$("#level").change(function() {
+		if ($("#level option:selected").val()==2) { 
+			$('#numTwo').attr('disabled', false);
+        } else {
+			$("#numTwo").prop("disabled", true);
+        }
+    });
+</script>
+
